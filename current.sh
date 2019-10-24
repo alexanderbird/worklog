@@ -13,6 +13,8 @@ if [[ "$previous" != "" ]]; then
   ./log.sh "Switch context to [$current](./$current.md)"
   echo "$current" > .current
   ./log.sh "Switch context from [$previous](./$previous.md)" >> "work/$current.md"
+else
+  echo "$current" > .current
 fi
 
 tmpfile="${TMPDIR:-/tmp}/$( basename "$file" ).$$"
