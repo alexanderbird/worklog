@@ -7,5 +7,4 @@ if [ "$current" = "" ]; then
   exit 1
 fi
 
-
-echo $@ >> log/"${$current}.md"
+echo $@ >> work/"$current.md"
