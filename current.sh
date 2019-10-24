@@ -12,7 +12,7 @@ fi
 if [[ "$previous" != "" ]]; then
   ./log.sh "Switch context to [$current](./$current.md)"
   echo "$current" > .current
-  ./log.sh "Switch context from [$previous](./$previous.md)" >> "work/$current.md"
+  ./log.sh "Switch context from [$previous](./$previous.md)"
 else
   echo "$current" > .current
 fi
