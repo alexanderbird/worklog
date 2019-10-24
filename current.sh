@@ -1,15 +1,27 @@
 #!/bin/sh
 
 current=$1
-previous=`cat .current`
+previous=`cat .current 2>/dev/null`
 
 if [ "$current" = "" ]; then
   echo "Please provide a name for the current work context"
+  exit 1
 fi
 
 echo "$current" > .current
-echo "Switch context to [$current](./$current.md)" >> "$previous.md"
-echo "Switch context from [$previous](./$previous.md)" >> "$current.md"
 
-sed -i "/$current/d" README.md
-sed -i "s/TOP-OF-RECENT-WORK-AUTO-GENERATED/&\n  - [$current](./$current.md)/" README.md
+if [[ "$previous" != "" ]]; then
+  echo "Switch context to [$current](./$current.md)" >> "log/$previous.md"
+  echo "Switch context from [$previous](./$previous.md)" >> "log/$current.md"
+fi
+
+tmpfile="${TMPDIR:-/tmp}/$( basename "$file" ).$$"
+while read -r line
+do
+  if [[ $line != *"$current"* ]]; then
+    echo "$line"
+  fi
+  if [[ "$line" == *"TOP-OF-RECENT-WORK-AUTO-GENERATED"* ]]; then
+    echo "  - [$current](./log/$current.md)"
+  fi
+done < "README.md" > "$tmpfile" && mv "$tmpfile" "README.md"
