@@ -8,11 +8,11 @@ if [ "$current" = "" ]; then
   exit 1
 fi
 
-echo "$current" > .current
 
 if [[ "$previous" != "" ]]; then
-  echo "Switch context to [$current](./$current.md)" >> "work/$previous.md"
-  echo "Switch context from [$previous](./$previous.md)" >> "work/$current.md"
+  ./log.sh "Switch context to [$current](./$current.md)"
+  echo "$current" > .current
+  ./log.sh "Switch context from [$previous](./$previous.md)" >> "work/$current.md"
 fi
 
 tmpfile="${TMPDIR:-/tmp}/$( basename "$file" ).$$"
@@ -22,6 +22,6 @@ do
     echo "$line"
   fi
   if [[ "$line" == *"TOP-OF-RECENT-WORK-AUTO-GENERATED"* ]]; then
-    echo "  - [$current](./work/$current.md)"
+    echo "- [$current](./work/$current.md)"
   fi
 done < "README.md" > "$tmpfile" && mv "$tmpfile" "README.md"

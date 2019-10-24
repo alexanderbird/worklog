@@ -7,4 +7,4 @@ if [ "$current" = "" ]; then
   exit 1
 fi
 
-echo $@ >> work/"$current.md"
+echo "[`date`]  " $@ >> work/"$current.md"
